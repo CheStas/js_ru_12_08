@@ -13,6 +13,7 @@ export default class Comments extends Component {
 
     render() {
         const { article } = this.props;
+        //Все хорошо, но не обязательно было в <p> заворачивать, достаточно просто строк
         const commentTitle = this.state.isOpen ? <p>hide comments</p> : <p>show comments</p>
         const commentBody = this.state.isOpen ? article.comments.map(commentsObject=> <li key = {commentsObject.id}><strong>{commentsObject.user}</strong>
         <p>{commentsObject.text}</p>
