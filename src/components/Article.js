@@ -1,26 +1,30 @@
-import React, { Component } from 'react'
-import Comments from './Comments'
+import React, { Component, PropTypes } from 'react'
+import CommentList from './CommentList'
+import toggleOpen from '../decorators/toggleOpen'
 
-export default class Article extends Component {
-
-    state = {
-        isOpen: false
+class Article extends Component {
+/*
+    constructor() {
+        super()
+        this.state = {
+            isOpen: false
+        }
+    }
+*/
+    static propTypes = {
+        article: PropTypes.object.isRequired
     }
 
     render() {
-        const { article } = this.props
-        const body = this.state.isOpen ? <section>{article.text}<Comments article = { article }/></section> : null
+        const { article: { text, title, comments}, isOpen, toggleOpen } = this.props
+        const body = isOpen ? <section>{text}<CommentList comments = {comments}/></section> : null
         return (
             <div>
-                <h3 onClick = {this.handleClick}>{article.title}</h3>
+                <h3 onClick = {toggleOpen}>{title}</h3>
                 {body}
             </div>
         )
     }
-
-    handleClick = (ev) => {
-        this.setState({
-            isOpen: !this.state.isOpen
-        })
-    }
 }
+
+export default Article
