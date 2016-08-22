@@ -5,6 +5,7 @@ import toggleOpenArticle from '../decorators/toggleOpenArticle'
 class ArticleList extends Component {
     static propTypes = {
         articles: PropTypes.array.isRequired,
+        //а еще openArticleId
         toggleOpenArticle: PropTypes.func.isRequired
     }
 
