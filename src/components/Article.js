@@ -12,7 +12,13 @@ class Article extends Component {
     }
 */
     static propTypes = {
-        article: PropTypes.object.isRequired
+        article: PropTypes.shape({
+            user: PropTypes.string,
+            text: PropTypes.string.isRequired,
+            comments: PropTypes.array
+        }),
+        isOpen: PropTypes.bool.isRequired,
+        toggleOpen: PropTypes.func.isRequired
     }
 
     render() {

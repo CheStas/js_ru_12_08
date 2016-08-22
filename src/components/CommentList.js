@@ -20,6 +20,12 @@ class CommentList extends Component {
             </div>
         )
     }
+
+    static propTypes = {
+        comments: PropTypes.array,
+        isOpen: PropTypes.bool.isRequired,
+        toggleOpen: PropTypes.func.isRequired
+    }
 }
 
 export default toggleOpen(CommentList)
