@@ -1,21 +1,34 @@
 import React, { Component, PropTypes } from 'react'
 import Article from './Article'
-import toggleOpenArticle from '../decorators/toggleOpenArticle'
+import accordion from '../decorators/accordion'
 
 class ArticleList extends Component {
     static propTypes = {
         articles: PropTypes.array.isRequired,
-        //а еще openArticleId
-        toggleOpenArticle: PropTypes.func.isRequired
+        //from accordion decorator
+        toggleOpenItem: PropTypes.func.isRequired,
+        isOpenItem: PropTypes.func.isRequired
+    }
+
+    componentWillMount() {
+        console.log('---', 'mounting')
+    }
+
+    componentDidMount() {
+        console.log('---', 'mounted')
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log('---', this.props, nextProps)
     }
 
     render() {
-        const { openArticleId, toggleOpenArticle } = this.props
-        const articleItems = this.props.articles.map(articleObject =>
+        const { articles, toggleOpenItem, isOpenItem } = this.props
+        const articleItems = articles.map(articleObject =>
             <li key = {articleObject.id}>
                 <Article article = {articleObject}
-                    isOpen = {openArticleId === articleObject.id}
-                    toggleOpen = {toggleOpenArticle(articleObject.id)}
+                    isOpen = {isOpenItem(articleObject.id)}
+                    toggleOpen = {toggleOpenItem(articleObject.id)}
                 />
             </li>)
         return (
@@ -24,8 +37,6 @@ class ArticleList extends Component {
             </ul>
         )
     }
-
-
 }
 
-export default toggleOpenArticle(ArticleList)
+export default accordion(ArticleList)
