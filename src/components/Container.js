@@ -53,6 +53,7 @@ class Container extends Component {
                     }
                     <DayPicker
                         ref="daypicker"
+                        {/*Лучше эту функцию сохранить как метод, а то и код в JSX лишний, и каждый раз пересоздается*/}
                         selectedDays={ day => DateUtils.isDayInRange(day, { from, to }) }
                         onDayClick={ this.handleDayClick }
                     />
