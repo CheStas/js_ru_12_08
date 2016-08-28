@@ -3,34 +3,18 @@ import ArticleList from './ArticleList'
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'
 import JqueryComponent from './JqueryComponent'
+import DaypickerContainer from './DaypickerContainer'
+import Counter from './Counter'
 import { findDOMNode } from 'react-dom'
-import DayPicker, { DateUtils } from "react-day-picker";
-import 'react-day-picker/lib/style.css';
-import moment from 'moment';
+import { connect } from 'react-redux'
 
 class Container extends Component {
-    constructor(props) {
-        super(props);
-        this.handleDayClick = this.handleDayClick.bind(this)
-        this.handleResetClick = this.handleResetClick.bind(this)
-    }
+    static propTypes = {
+
+    };
 
     state = {
-        from: null,
-        to: null
-    }
-
-    handleDayClick(e, day) {
-        const range = DateUtils.addDayToRange(day, this.state)
-        this.setState(range)
-    }
-
-    handleResetClick(e) {
-        e.preventDefault()
-        this.setState({
-            from: null,
-            to: null
-        })
+        selected: null
     }
 
     render() {
@@ -38,37 +22,13 @@ class Container extends Component {
             label: article.title,
             value: article.id
         }))
-        const { from, to } = this.state
-
         return (
             <div>
-                <div className="RangeExample">
-                    { !from && !to && <p>Please select the <strong>first day</strong>.</p> }
-                    { from && !to && <p>Please select the <strong>last day</strong>.</p> }
-                    { from && to &&
-                    <p>
-                        You chose from { moment(from).format('L') } to { moment(to).format('L') }.
-                        { ' ' }<a href="#" onClick={ this.handleResetClick }>Reset</a>
-                    </p>
-                    }
-                    <DayPicker
-                        ref="daypicker"
-                        selectedDays={ day => DateUtils.isDayInRange(day, { from, to }) }
-                        onDayClick={ this.handleDayClick }
-                    />
-                </div>
-                <Select
-                    options = {options}
-                    value={this.state.selected}
-                    onChange = {this.handleChange}
-                    multi={true}
-                />
-                <ArticleList
-                    articles = {this.props.articles}
-                />
-                <JqueryComponent
-                    items = {this.props.articles} ref={this.getJQ}
-                />
+                <Counter />
+                <ArticleList articles = {this.props.articles} />
+                <Select options = {options} value={this.state.selected} onChange = {this.handleChange} multi={true}/>
+                <DaypickerContainer />
+                <JqueryComponent items = {this.props.articles} ref={this.getJQ}/>
             </div>
         )
     }
@@ -85,4 +45,8 @@ class Container extends Component {
     }
 }
 
-export default Container
+export default connect((state) => {
+    const { articles } = state
+    return { articles }
+}
+)(Container)
